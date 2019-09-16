@@ -25,9 +25,19 @@ var chartGroup = svg.append("g")
 // Import Data
 d3.csv("assets/data/data.csv").then(function(healthData) {
 
+    // Cast as numerals
     healthData.forEach(function(data) {
         data.obesity = +data.obesity;
         data.poverty = +data.poverty;
     });
+
+    // Scale Functions
+    var xLinearScale = d3.scaleLinear()
+        .domain(d3.extent(healthData, d => d.poverty))
+        .range([0, width]);
+
+    var yLinearScale = d3.scaleLinear()
+        .domain([0, d3.max(healthData, d => d.obesity)])
+        .range([height, 0]);
 
 });
